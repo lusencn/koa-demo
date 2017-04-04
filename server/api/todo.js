@@ -1,22 +1,35 @@
 import apiUtil from '../utils/apiUtil';
+import models from '../models/index';
 
 /**
  * Todo api
  */
 const get = {
     list: async (ctx) => {
+        const result = await models.Todo.findAndCount({
+            limit: 10,
+            offset: ctx.params.start,
+            logging: true
+        });
         ctx.body = apiUtil.success({
-            list: [],
-            count: 0
+            list: result.rows,
+            count: result.count
         });
     }
 };
 
 const post = {
-    save: async (ctx) => {
+    del: async (ctx) => {
         ctx.body = apiUtil.success();
     },
-    del: async (ctx) => {
+    save: async (ctx) => {
+        const result = await models.Todo.create({
+            title: 'title-' + (new Date()).getTime(),
+            content: 'content-' + (new Date()).getTime(),
+            startTime: new Date()
+        }, {
+            logging: true
+        });
         ctx.body = apiUtil.success();
     }
 };

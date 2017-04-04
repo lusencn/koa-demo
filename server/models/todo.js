@@ -1,19 +1,26 @@
 function TodoModel(sequelize, DataTypes) {
-    const Todo = sequelize.define('Todo', {
+    return sequelize.define('Todo', {
         id: {
             type: DataTypes.INTEGER,
             primaryKey: true,
             autoIncrement: true
         },
+        content: {
+            type: DataTypes.TEXT,
+            validate: {
+                notEmpty: true
+            }
+        },
         title: {
             type: DataTypes.STRING,
             validate: {
                 notEmpty: true,
-                len: [1, 100]
+                len: [1, 128]
             }
         },
-        content: {
-            type: DataTypes.TEXT,
+        startTime: {
+            type: DataTypes.DATE,
+            field: 'start_time',
             validate: {
                 notEmpty: true
             }
@@ -22,19 +29,8 @@ function TodoModel(sequelize, DataTypes) {
         underscored: true,
         createdAt: 'created_at',
         updatedAt: 'updated_at',
-        tableName: 'todo',
-        classMethods: {
-            associate: function(models) {
-                Article.belongsTo(models.User, {foreignKey: 'user_id'});
-            }
-        },
-        getterMethods: {
-            createdAt: function() {
-                return this.created_at;
-            }
-        }
+        tableName: 'todo'
     });
-    return Todo;
 }
 
 export default TodoModel;
