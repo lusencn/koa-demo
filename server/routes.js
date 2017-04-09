@@ -22,12 +22,13 @@ apiRouter.post('/:controller/:action', async (ctx, next) => {
 
 // page controller路由设置
 let pageController = moduleUtil.getAllModulesInDir(path.join(__dirname, './controllers'));
-let regPaths = ['/:controller', '/:controller/:sub'];
+let regPaths = ['/', '/:controller', '/:controller/:action'];
 regPaths.forEach(path => {
     pageRouter.get(path, async (ctx, next) => {
-        let {controller, sub} = ctx.params;
-        (sub == null) && (sub = 'index');
-        await pageController[controller][sub](ctx, next);
+        let {controller, action} = ctx.params;
+        (controller == null) && (controller = 'index');
+        (action == null) && (action = 'index');
+        await pageController[controller][action](ctx, next);
     });
 });
 
