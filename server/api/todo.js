@@ -6,9 +6,10 @@ import models from '../models/index';
  */
 const get = {
     list: async (ctx) => {
+        let {startIndex, pageSize} = ctx.query;
         const result = await models.Todo.findAndCount({
-            limit: 10,
-            offset: ctx.params.start,
+            limit: pageSize || 10,
+            offset: startIndex,
             logging: true
         });
         ctx.body = apiUtil.success({
@@ -20,6 +21,10 @@ const get = {
 
 const post = {
     del: async (ctx) => {
+        let {id} = ctx.query;
+        const result = await models.Todo.destroy({
+            where: 'id=' + id
+        });
         ctx.body = apiUtil.success();
     },
     save: async (ctx) => {
