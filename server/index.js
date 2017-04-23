@@ -11,8 +11,6 @@ const app = new Koa();
 // 解析静态资源
 config.serveStatic && app.use(convert(kstatic(__dirname + '/../dist')));
 
-console.log(1);
-
 // cookie签名密钥
 app.keys = [config.secretKey];
 
