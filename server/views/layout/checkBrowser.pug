@@ -1,0 +1,75 @@
+style.
+    #browserNoteCtId .mask {
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        position: fixed;
+        z-index: 9999;
+        background-color: #000;
+        opacity: .6;
+        filter: alpha(opacity=60);
+    }
+    #browserNoteCtId .panel {
+        background-color: #f4f6f6;
+        position: absolute;
+        z-index: 10000;
+        width: 415px;
+        height: 320px;
+        border-radius: 3px;
+        top: 50%;
+        left: 50%;
+        margin: -160px 0 0 -207px;
+        font-family: Microsoft YaHei, Helvetica, Arial;
+        font-size: 12px;
+    }
+    #browserNoteCtId .logo {
+        height: 123px;
+        background: url(//e.chanjet.com/res/images/bg-errorbrowser-1.a63db3cb.png) no-repeat;
+        background-size: 198px auto;
+        background-position: 50% 50%;
+        margin: 58px 0 34px;
+    }
+    #browserNoteCtId .panel > p {
+        margin-bottom: 20px;
+        text-align: center;
+        font-size: 14px;
+        color: #3d3d3d;
+    }
+    #browserNoteCtId .text {
+        display: block;
+        width: 100%;
+        text-align: center;
+        color: #999;
+    }
+    #browserNoteCtId .text > a {
+        color: #4fcbcd;
+        margin: 0 5px;
+    }
+
+// 浏览器版本过低提示
+#browserNoteCtId(style="display:none;")
+    .mask
+    .panel
+        .logo
+        p 您使用的浏览器版本过低，可能有安全风险
+        span(class="text")
+            | 您可以选择
+            a(href="http://support.microsoft.com/zh-cn/help/17621/internet-explorer-downloads?spm=875.7931836/B.a2226mw.1.J1Qhuv" target="_blank")
+                | IE浏览器最新版
+            | 或
+            a(href="http://chrome.360.cn" target="_blank") 360极速浏览器
+
+script(type="text/javascript").
+    (function(){
+        // 浏览器兼容性检查
+        var userAgent = navigator.userAgent.toLowerCase();
+        var isIE = /msie/.test(userAgent) || /rv:11/.test(userAgent);
+        var isIE8D = /msie 6/.test(userAgent) || /msie 7/.test(userAgent) || /msie 8/.test(userAgent);
+        if (isIE8D) {
+            try {
+                document.getElementById('browserNoteCtId').style.display = 'block';
+            } catch (e) {
+            }
+        }
+    })()
