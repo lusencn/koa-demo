@@ -5,7 +5,7 @@ import models from '../models/index';
  * Todo api
  */
 const get = {
-    list: async (ctx) => {
+    page: async (ctx) => {
         let {startIndex, pageSize} = ctx.query;
         const result = await models.Todo.findAndCount({
             limit: pageSize || 10,
@@ -22,20 +22,36 @@ const get = {
 const post = {
     del: async (ctx) => {
         let {id} = ctx.query;
-        const result = await models.Todo.destroy({
-            where: 'id=' + id
-        });
-        ctx.body = apiUtil.success();
+        let result = null;
+        try {
+            const delCnt = await models.Todo.destroy({
+                where: {
+                    id: id
+                }
+            });
+            result = delCnt >= 1 ? apiUtil.success() : apiUtil.failure();
+        } catch (e) {
+            result = apiUtil.failure();
+        }
+        ctx.body = result;
     },
     save: async (ctx) => {
-        const result = await models.Todo.create({
-            title: 'title-' + (new Date()).getTime(),
-            content: 'content-' + (new Date()).getTime(),
-            startTime: new Date()
-        }, {
-            logging: true
-        });
-        ctx.body = apiUtil.success();
+        let {title, content, startTime} = ctx.query;
+        let result = null;
+        try {
+            await models.Todo.create({
+                id: 1,
+                title: title,
+                content: content,
+                startTime: startTime || new Date()
+            }, {
+                logging: true
+            });
+            result = apiUtil.success();
+        } catch (e) {
+            result = apiUtil.failure('', 1, e.message);
+        }
+        ctx.body = result;
     }
 };
 
