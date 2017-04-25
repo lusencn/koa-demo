@@ -7,6 +7,7 @@
     "console": "babel-node server/index.js console",
     "server": "babel-node server/index.js",
     "start": "nodemon server/index.js",
+    "dev": "cross-env NODE_ENV=development && npm run start",
     "db:create": "sequelize migration:create",
     "db:migrate": "sequelize db:migrate",
     "db:undo": "sequelize db:migrate:undo"
