@@ -40,7 +40,6 @@ const post = {
         let result = null;
         try {
             await models.Todo.create({
-                id: 1,
                 title: title,
                 content: content,
                 startTime: startTime || new Date()
